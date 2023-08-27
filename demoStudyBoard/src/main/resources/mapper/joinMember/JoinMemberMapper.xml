@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+                        
+ <!--mapper namespace값 Mapper Interface와 맞춰줌
+ 	id는 MapperInterface 클래스에서 선언한 메서드의 이름과 동일하게 맞춰줌
+ -->              
+ <mapper namespace="com.example.demo.web.mapper.joinMember.JoinMemberMapper">
+	 
+	 <insert id="joinMember" parameterType="map">
+		 INSERT INTO ibms.member
+			(
+				member_id
+				, member_name
+				, member_pw
+				, member_email
+				, member_phone
+			)
+			VALUES( 
+				'TEST'
+				, 'TESTNAME'
+				, '123'
+				, '''
+				, '''
+			)
+		 
+	 </insert>
+	 
+ </mapper>

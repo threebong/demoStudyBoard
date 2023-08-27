@@ -1,0 +1,22 @@
+server:
+ port: 8083
+
+
+#DB
+spring:
+ datasource:
+  dbcp2.driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/
+  username: root
+  password: ibms1234!@# 
+  
+  
+#
+mybatis:
+  configuration:
+    multiple-result-sets-enabled: false
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true    
+    jdbc-type-for-null: varchar
+    default-fetch-size: 500
+  mapper-locations: classpath:mapper/**/*.xml
