@@ -12,6 +12,7 @@ request.interceptors.request.use(
     config => {
         //요청 보내기 전 수행할 로직
         console.log('AXIOS!!!')
+        config.headers['Access-Control-Allow-Origin']='*'
         return config
     },
     error => {
