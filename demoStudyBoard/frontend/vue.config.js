@@ -7,6 +7,7 @@ module.exports = defineConfig({
         '/api' : {
           target: 'http://localhost:8083', //spring boot server
           changeOrigin: true //cross origin허용
+          // rewrite: (path) => path.replace(/^\/api/, ""),
         }
       }
     },
