@@ -19,8 +19,12 @@ public class JoinMemberService {
 	
 
 
-	
+	//회원가입
 	public int joinMember(HashMap<String, Object> request) throws Exception {
 		return joinMemberMapper.joinMember(request);
+	}
+	//중복 id검사
+	public int selectOneMemberId(String memberId) throws Exception{
+		return joinMemberMapper.selectOneMemberId(memberId);
 	}
 }

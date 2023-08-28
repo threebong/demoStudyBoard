@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.web.joinMember.service.JoinMemberService;
@@ -22,22 +24,26 @@ public class JoinMemberController {
 	 * 회원가입 
 	 * */
 	@PostMapping("/joinMember")
-	public ArrayList<HashMap<String, Object>> joinMember(@RequestBody HashMap<String, Object> request) throws Exception{
-		ArrayList<HashMap<String, Object>> rtnArray = new ArrayList<HashMap<String, Object>>();
-		HashMap<String,Object> rtnMap = new HashMap<String,Object>();
-		System.out.println("----->");
-		System.out.println(request);
-		rtnMap.put("", rtnMap.get("memberId"));
-		rtnArray.add(rtnMap);
+	public int joinMember(@RequestBody HashMap<String, Object> request) throws Exception{
+		int result = 0;
 		
 		try {
-			joinMemberService.joinMember(request);
+			result = joinMemberService.joinMember(request);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		return result;
 		
-		
-		return rtnArray;
+	}
+	
+	/*
+	 * 중복 ID확인
+	 * */
+	@GetMapping("/checkDupId")
+	public int checkDupId(@RequestParam HashMap<String, Object> request) throws Exception {
+		System.out.println("-->중복ID확인");
+//		joinMemberService.selectOneMemberId((String)request.get("memberId"));
+		return joinMemberService.selectOneMemberId((String)request.get("memberId"));
 	}
 }

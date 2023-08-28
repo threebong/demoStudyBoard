@@ -17,13 +17,18 @@
 				, member_phone
 			)
 			VALUES( 
-				'TEST'
-				, 'TESTNAME'
-				, '123'
-				, '''
-				, '''
+				#{memberId}
+				, #{memberName}
+				, #{memberPw}
+				, #{memberEmail}
+				, #{memberPhone}
 			)
-		 
 	 </insert>
+	 
+	 <select id="selectOneMemberId" parameterType="String" resultType="int">
+		 SELECT COUNT(*) 
+		 FROM ibms.member
+		 WHERE member_id = #{value} 
+	 </select>
 	 
  </mapper>
