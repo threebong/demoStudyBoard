@@ -11,7 +11,7 @@ spring:
   password: ibms1234!@# 
   
   
-#
+#마이바티스 설정
 mybatis:
   configuration:
     multiple-result-sets-enabled: false
