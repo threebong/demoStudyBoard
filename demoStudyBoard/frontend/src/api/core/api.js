@@ -13,6 +13,7 @@ request.interceptors.request.use(
         //요청 보내기 전 수행할 로직
         console.log('AXIOS!!!')
         config.headers['Access-Control-Allow-Origin']='*'
+        config.headers['Content-Type'] = 'application/json'
         return config
     },
     error => {

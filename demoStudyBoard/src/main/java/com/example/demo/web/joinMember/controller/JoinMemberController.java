@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.web.joinMember.service.JoinMemberService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api")
 public class JoinMemberController {
@@ -45,5 +47,15 @@ public class JoinMemberController {
 		System.out.println("-->중복ID확인");
 //		joinMemberService.selectOneMemberId((String)request.get("memberId"));
 		return joinMemberService.selectOneMemberId((String)request.get("memberId"));
+	}
+	
+	/*
+	 * 로그인
+	 * */
+	@PostMapping("/login")
+	public int userLogin(@RequestBody HashMap<String, Object> request) throws Exception{
+		System.out.println("----[LOGIN]----");
+		System.out.println(request);
+		return 1;
 	}
 }
