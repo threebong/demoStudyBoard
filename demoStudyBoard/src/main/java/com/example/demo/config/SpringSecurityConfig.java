@@ -3,21 +3,53 @@ package com.example.demo.config;
 import org.springframework.boot.autoconfigure.security.oauth2.server.servlet.OAuth2AuthorizationServerJwtAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.example.demo.auth.JwtSecurityConfig;
+import com.example.demo.auth.TokenProvider;
+import com.example.demo.auth.err.JwtAccessDeniedHandler;
+import com.example.demo.auth.err.JwtAuthenticationEntryPoint;
+
 import io.netty.handler.codec.http.cors.CorsConfig;
 import jakarta.servlet.DispatcherType;
-
+/*
+ * Spring Security에서 가장 중요한 Spring Config클래스
+ * WebSecurityConfigurerAdaptor가 Depreted됨 --> SecurityFilterChain직접 구현하여 @Bean 구현하는 방식 
+ * */
 @Configuration
-//@EnableWebSecurity  //이 어노테이션 안에 Configuration이 포함되어있다함 > 근데사용하면에러남
+@EnableWebSecurity  //이 어노테이션 안에 Configuration이 포함되어있다함 , Spring Security 활성화
+@EnableMethodSecurity //@PreAuthorize어노테이션 메소드 단위로 추가하기 위해..(default: true)
 public class SpringSecurityConfig {
 	
-	private OAuth2AuthorizationServerJwtAutoConfiguration jwt;
+	private final TokenProvider tokenProvider;
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+	
+	
+	// TokenProvider,JwtAuthenticationEntryPoint,JwtAccessDeniedHandler 의존성 주입
+    public SpringSecurityConfig(
+            TokenProvider tokenProvider,
+            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+            JwtAccessDeniedHandler jwtAccessDeniedHandler
+    ){
+        this.tokenProvider = tokenProvider;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+    }
+	
+    
+    // 비밀번호 암호화
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 	
 	/*
 	 * cors관련(?)
@@ -26,8 +58,15 @@ public class SpringSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 //			.cors(cors -> cors.disable())
-			.csrf(csrf -> csrf.disable())
+			.csrf(csrf -> csrf.disable()) //토큰 사용하므로 비활성화 
 //			.addFilter(CorsConfigFilter)
+			
+			//예외 처리시 직접 만들었던 클래스 추가
+			.exceptionHandling(exp -> exp.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+														.accessDeniedHandler(jwtAccessDeniedHandler))
+			//세션 사용 안함, 세션 설정 STATELES로 함
+			.sessionManagement(ses -> ses.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			
 			.authorizeHttpRequests(request -> request
 					.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 //					.requestMatchers("/","/login")
@@ -38,6 +77,8 @@ public class SpringSecurityConfig {
 					.permitAll()//얘네는 허용
 					.anyRequest().authenticated() //어떠한 요청이라도 인증 필요
 			)
+			
+			
 //			.formLogin(login -> login //form 방식 로그인
 //					.loginPage("/login") //커스텀 로그인 페이지 지정
 //					.loginProcessingUrl("/api/login")// 로그인을 처리할 url? 
@@ -56,6 +97,10 @@ public class SpringSecurityConfig {
 					.logoutUrl("/logout")
 					.logoutSuccessUrl("/login")
 					)
+			
+			//JwtFilter를 addFilterBefore로 등록했던 jwtSecurityConfig클래스 적용
+			.apply(new JwtSecurityConfig(tokenProvider))
+			
 			;
 		
 		return http.build();

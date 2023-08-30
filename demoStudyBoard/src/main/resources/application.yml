@@ -22,7 +22,9 @@ mybatis:
   mapper-locations: classpath:mapper/**/*.xml
 
   
-  
-#jwt
+#https://velog.io/@gale4739/Spring-Security-%EC%A0%81%EC%9A%A9
+#jwt (secretKey 길게 적어야함)
 jwt:
- secret-key: begin private key
+ secret: ThatWhichWePersistInDoingBecomesEasierForUsToDoNotThatTheNatureOfTheThingItselfIsChangedButThatOurPowerToDoIsIncreased
+ header: Authorization
+ token-validity-in-seconds: 86400
