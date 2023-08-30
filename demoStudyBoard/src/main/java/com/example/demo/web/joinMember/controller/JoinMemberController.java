@@ -54,6 +54,7 @@ public class JoinMemberController {
 	 * */
 	@PostMapping("/login")
 	public int userLogin(@RequestBody HashMap<String, Object> request) throws Exception{
+//		public int userLogin(@RequestBody HashMap<String, Object> request) throws Exception{
 		System.out.println("----[LOGIN]----");
 		System.out.println(request);
 		return 1;
