@@ -20,13 +20,15 @@ public class JoinMemberService {
 	@Autowired
 	private JoinMemberMapper joinMemberMapper;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 
 	//회원가입
 	public int joinMember(HashMap<String, Object> request) throws Exception {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		
-		String encodePw = encoder.encode((String)request.get("memberPw"));		
+//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//		String encodePw = encoder.encode((String)request.get("memberPw"));		
+		String encodePw = passwordEncoder.encode((String)request.get("memberPw"));
 		request.put("memberPw", encodePw);
 		/*
 		 * 로그인확인시 encoder.matches(password, member.getPassword()) 사용
