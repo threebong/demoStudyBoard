@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.demo.auth.JwtSecurityConfig;
-import com.example.demo.auth.TokenProvider;
+import com.example.demo.auth.JwtProvider;
 import com.example.demo.auth.err.JwtAccessDeniedHandler;
 import com.example.demo.auth.err.JwtAuthenticationEntryPoint;
 
@@ -28,14 +28,14 @@ import jakarta.servlet.DispatcherType;
 @EnableMethodSecurity //@PreAuthorize어노테이션 메소드 단위로 추가하기 위해..(default: true)
 public class SpringSecurityConfig {
 	
-	private final TokenProvider tokenProvider;
+	private final JwtProvider tokenProvider;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 	
 	
 	// TokenProvider,JwtAuthenticationEntryPoint,JwtAccessDeniedHandler 의존성 주입
     public SpringSecurityConfig(
-            TokenProvider tokenProvider,
+            JwtProvider tokenProvider,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
             JwtAccessDeniedHandler jwtAccessDeniedHandler
     ){

@@ -10,10 +10,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * JwtFilter를 필터 실행 이전에 실행되도록 설정함
  * */
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain	, HttpSecurity>{
-	private final TokenProvider tokenProvider;
+	private final JwtProvider tokenProvider;
 	
 	//Token Provider 주입
-	public JwtSecurityConfig(TokenProvider tokenProvider) {
+	public JwtSecurityConfig(JwtProvider tokenProvider) {
 		this.tokenProvider = tokenProvider;
 	}
 	

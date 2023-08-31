@@ -16,6 +16,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import org.springframework.security.core.userdetails.User;
+
+import com.example.demo.entity.Member;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -33,13 +37,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component 
-public class TokenProvider implements InitializingBean{ //
+public class JwtProvider implements InitializingBean{ //
 //https://velog.io/@limsubin/Spring-Security-JWT-%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%B4%EB%B3%B4%EC%9E%90
 	//https://stir.tistory.com/275
 	//https://thalals.tistory.com/436 !! 
 
 	
-	private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+	private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
 
@@ -49,7 +53,7 @@ public class TokenProvider implements InitializingBean{ //
 	
 //${jwt.secret-key} : application.yml 파일 읽어오기. 이 키값을 바탕으로 jwt 토큰 생성한다.
     // 의존성 주입
-    public TokenProvider(
+    public JwtProvider(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.token-validity-in-seconds}") long tokenValidityInMilliseconds
     ){
@@ -65,8 +69,13 @@ public class TokenProvider implements InitializingBean{ //
 		this.key = Keys.hmacShaKeyFor(keyBytes);
 	}
 	
-	//Authentication 객체의 권한 정보 이용 --> 토큰 생성
+	/*
+     *		Authentication 객체의 권한 정보 이용 --> 토큰 생성
+	 * 
+	 * */
 	public String createToken(Authentication authentication) {
+		
+		System.out.println("::::::::::::::TOKEN 생성:::::::::::::");
 		
 		//authorities 설정
 		String authorities = authentication.getAuthorities().stream()
@@ -86,8 +95,13 @@ public class TokenProvider implements InitializingBean{ //
 							.compact();
 	}
 
-	//Token의 정보 이용해 Authentication 객체 return
+	/*
+	 *	Token의 정보 이용해 Authentication 객체 return
+	 * 
+	 * */
 	public Authentication getAuthentication(String token) {
+		
+		System.out.println("::::::::::::::::::GET AUTHENTICATION::::::::::::::::::::::");
 		
 		//Token-->이용해서 Calims생성
 		Claims claims = Jwts.parserBuilder()
@@ -102,15 +116,21 @@ public class TokenProvider implements InitializingBean{ //
         																								.collect(Collectors.toList());
 		//TODO 나중에 주석 해제, User객체 생성
         //Claim과 authorities 이용하여 User 객체 생성
-        //User principal = new User(claims.getSubject(), "", authorities);        
+//        Member principal = new Member(claims.getSubject(), "", authorities);        
+//        Member principal = new Member(claims.getSubject(), "", authorities);
+        User principal = new User(claims.getSubject(), "", authorities);
         
-        return new UsernamePasswordAuthenticationToken( token, authorities); //첫번째 인자에 principal 추가 
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities); //첫번째 인자에 principal 추가 
         
         
 	}
 
 	// Token 유효성
 	public boolean validateToken(String token) {
+		
+		System.out.println("::::::::::TOKEN Vali CHEK::::::::::::");
+		
+		
 		try {
 				//Token 파싱 후 발생하는 예외 캐치하여 문제있으면 F 없으면 T 
 			Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);

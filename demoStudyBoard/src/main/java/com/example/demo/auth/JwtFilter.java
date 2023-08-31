@@ -22,13 +22,13 @@ import jakarta.servlet.http.HttpServletRequest;
  * */
 public class JwtFilter extends GenericFilterBean{
 	
-	private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+	private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 	
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 	
-	private final TokenProvider tokenProvider;
+	private final JwtProvider tokenProvider;
 	
-	public JwtFilter(TokenProvider tokenProvider) {
+	public JwtFilter(JwtProvider tokenProvider) {
 		this.tokenProvider = tokenProvider;
 	}
 	
