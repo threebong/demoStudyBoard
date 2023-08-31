@@ -2,7 +2,7 @@ package com.example.demo.entity;
 /*
  * 실제 DB와 매핑되는 클래스
  * DB Table에 존재하는 Column = 필드값 
- * JPA사용시 필요
+ * JPA사용시 필요함
  * */
 
 import jakarta.persistence.Column;
