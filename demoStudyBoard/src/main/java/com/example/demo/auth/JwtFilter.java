@@ -38,8 +38,11 @@ public class JwtFilter extends GenericFilterBean{
 	 * */
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException{
-		//resolveToken 통해 Token받아
 		
+		
+		System.out.println("::::::::JWT TOKEN PROVIDER DOFILTER:::::::::::");
+		
+		//resoloveToken통해서 토큰 받아옴 
 		HttpServletRequest httpServeletRequest = (HttpServletRequest)request;
 		String jwt = resolveToken(httpServeletRequest);
 		String requestURI = httpServeletRequest.getRequestURI();
@@ -49,9 +52,9 @@ public class JwtFilter extends GenericFilterBean{
 			Authentication authentication = tokenProvider.getAuthentication(jwt);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			
-			logger.debug(":::::::::: Security Context에 '{}' 인증 정보를 저장했습니다 :::::::::  , uri: {}", authentication.getName(), requestURI);
+			logger.info(":::::::::: Security Context에 '{}' 인증 정보를 저장했습니다 :::::::::  , uri: {}", authentication.getName(), requestURI);
 		} else {
-			logger.debug("::::::::::::유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
+			logger.info("::::::::::::유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
 		}
 		
 		//생성한 필터 실행
@@ -59,7 +62,7 @@ public class JwtFilter extends GenericFilterBean{
 		
 	}
 	
-	//Token꺼내오기
+	//Request Header에서 Token꺼내오기
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {

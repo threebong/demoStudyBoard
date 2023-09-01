@@ -65,6 +65,8 @@ public class JwtProvider implements InitializingBean{ //
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("::::::::::[            afterPropertiesSET                  ]:::::::::::::");
+		
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
 		this.key = Keys.hmacShaKeyFor(keyBytes);
 	}
@@ -75,7 +77,7 @@ public class JwtProvider implements InitializingBean{ //
 	 * */
 	public String createToken(Authentication authentication) {
 		
-		System.out.println("::::::::::::::TOKEN 생성:::::::::::::");
+		System.out.println("::::::::::::::[             TOKEN 생성             ]:::::::::::::");
 		
 		//authorities 설정
 		String authorities = authentication.getAuthorities().stream()
@@ -96,7 +98,7 @@ public class JwtProvider implements InitializingBean{ //
 	}
 
 	/*
-	 *	Token의 정보 이용해 Authentication 객체 return
+	 *	Token에 담겨있는 정보  이용해 Authentication 객체 return
 	 * 
 	 * */
 	public Authentication getAuthentication(String token) {
@@ -114,18 +116,16 @@ public class JwtProvider implements InitializingBean{ //
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
         																								.map(SimpleGrantedAuthority::new)
         																								.collect(Collectors.toList());
-		//TODO 나중에 주석 해제, User객체 생성
         //Claim과 authorities 이용하여 User 객체 생성
-//        Member principal = new Member(claims.getSubject(), "", authorities);        
-//        Member principal = new Member(claims.getSubject(), "", authorities);
         User principal = new User(claims.getSubject(), "", authorities);
         
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities); //첫번째 인자에 principal 추가 
+        //Authentication 객체 리턴
+        return new UsernamePasswordAuthenticationToken(principal, token, authorities); 
         
         
 	}
 
-	// Token 유효성
+	// Token 유효성 검증 수행
 	public boolean validateToken(String token) {
 		
 		System.out.println("::::::::::TOKEN Vali CHEK::::::::::::");

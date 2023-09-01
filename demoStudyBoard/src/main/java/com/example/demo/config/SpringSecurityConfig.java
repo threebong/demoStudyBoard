@@ -70,9 +70,12 @@ public class SpringSecurityConfig {
 			.authorizeHttpRequests(request -> request
 					.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 //					.requestMatchers("/","/login")
-					.requestMatchers(new AntPathRequestMatcher("/api/loginMember")
+					.requestMatchers(new AntPathRequestMatcher("/api/loginMember")//로그인
 							, new AntPathRequestMatcher("/")
-							, new AntPathRequestMatcher("/**") //<---- 나중에없애야함..
+							, new AntPathRequestMatcher("/api/checkDupId") //중복id체크
+							, new AntPathRequestMatcher("/api//joinMember")//회원가입
+							
+//							, new AntPathRequestMatcher("/**") //<---- 나중에없애야함..
 							)
 					.permitAll()//얘네는 허용
 					.anyRequest().authenticated() //어떠한 요청이라도 인증 필요

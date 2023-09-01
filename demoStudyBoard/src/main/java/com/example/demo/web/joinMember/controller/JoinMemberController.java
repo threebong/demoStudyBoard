@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.auth.JwtFilter;
 import com.example.demo.auth.JwtProvider;
 import com.example.demo.web.joinMember.service.JoinMemberService;
+
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api")
@@ -64,16 +68,16 @@ public class JoinMemberController {
 	 * 로그인
 	 * */
 	@PostMapping("/loginMember")
-//	public String userLogin(@RequestBody HashMap<String, Object> request) throws Exception{
-		public String userLogin(@RequestBody HashMap<String, Object> request) throws Exception{
+		public ResponseEntity<Object> userLogin(@RequestBody HashMap<String, Object> request, HttpServletResponse response) throws Exception{
+//		public String userLogin(@RequestBody HashMap<String, Object> request) throws Exception{
 		System.out.println(":::::::::::::::LOGIN:::::::::::::::::");
 		
 		UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(request.get("user_id"), request.get("user_pw"));
 		System.out.println(request);
-		System.out.println((String)request.get("user_pw"));
 	
 		System.out.println(authenticationToken);
 		
+		//아래의 메소드로 실행시키면 JpaUserDetailService로 이동한다
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		
 		System.out.println(authentication);
@@ -81,12 +85,24 @@ public class JoinMemberController {
 		
 		//사용자정보
 		System.out.println("-------------사용자 정보-----------------");
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		String jwt = tokenProvider.createToken(authentication);
+		System.out.println(authentication);
 		System.out.println(jwt);
+		
+		Cookie cookie = new Cookie("accessToken", jwt);
+		cookie.setMaxAge(60*60*24);
+		cookie.setPath("/api/loginMember");
+		cookie.setHttpOnly(true);
+		
+		response.addCookie(cookie);
+	
 		
 		HttpHeaders httpheaders = new HttpHeaders();
 		httpheaders.add(JwtFilter.AUTHORIZATION_HEADER	,"Bearer " +  jwt);
-		return jwt;
+//		return new ResponseEntity<Object>(authentication, httpheaders, HttpStatus.valueOf(200)); //생성자패턴 body,header,HttpStatus.valueOf(code)
+		return ResponseEntity.ok()
+				.headers(httpheaders)
+				.body(authentication);
+//				.body(response);  //TODO 여기서부터
 	}
 }
