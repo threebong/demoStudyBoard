@@ -11,7 +11,7 @@
                 </p>
                 <p>
                     <button type="submit" class="w3-button w3-green w3-round">Login</button>
-                    <button @click="openJoinMember()" class="w3-button w3-white w3-border w3-border-red w3-round-large">회원가입</button>
+                    <button type="button" @click="openJoinMember()" class="w3-button w3-white w3-border w3-border-red w3-round-large">회원가입</button>
                 </p>
             </form>
             <joinMemberView v-if="isModalViewed" @close-modal="isModalViewed=false"></joinMemberView>
@@ -45,7 +45,7 @@ export default defineComponent({
         const goLogin = () => {
             console.log('로그인누름')
             console.log(data.value)
-            request.post("/api/login", data.value)
+            request.post("/api/loginMember", data.value)
                 .then((res) => {
                     console.log(res)
                     console.log("로그인갔다옴")

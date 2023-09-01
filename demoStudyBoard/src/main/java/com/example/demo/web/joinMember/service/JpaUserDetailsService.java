@@ -24,10 +24,15 @@ public class JpaUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
-		Member member = memberRepository.findByMemberId(username).orElseThrow(
-					() -> new UsernameNotFoundException(":::::::::Invalid authentication::::::::::::")
-				)
-				;
+		System.out.println("::::USER::::");
+		
+		Member member =memberRepository.findByMemberId(username);
+//				.orElseThrow(
+//					() -> new UsernameNotFoundException(":::::::::Invalid authentication::::::::::::")
+//				)
+//				;
+		System.out.println(member.getMemberNo());
+		
 		
 		return new CustomUserDetails(member);
 	}

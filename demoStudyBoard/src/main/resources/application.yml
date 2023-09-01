@@ -6,10 +6,19 @@ server:
 spring:
  datasource:
   dbcp2.driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/
+  url: jdbc:mysql://localhost:3306/ibms
   username: root
   password: ibms1234!@# 
-  
+ 
+ jpa:
+  database: mysql
+  database-platform: org.hibernate.dialect.MySQL8Dialect
+  open-in-view: false
+  show-sql: true
+  hibernate:
+   format_sql: true
+   ddl-auto: update  
+   generate-ddl: true
   
 #마이바티스 설정
 mybatis:
@@ -20,6 +29,8 @@ mybatis:
     jdbc-type-for-null: varchar
     default-fetch-size: 500
   mapper-locations: classpath:mapper/**/*.xml
+
+
 
   
 #https://velog.io/@gale4739/Spring-Security-%EC%A0%81%EC%9A%A9

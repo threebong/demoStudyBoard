@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.Member;
 
@@ -11,6 +12,7 @@ import com.example.demo.entity.Member;
 /*
  * Spring Security 유저 인증과정에서 UserDetails 참고하여 인증 진행 
  * */
+
 public class CustomUserDetails implements UserDetails{
 	
 	/**

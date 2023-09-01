@@ -70,12 +70,13 @@ public class SpringSecurityConfig {
 			.authorizeHttpRequests(request -> request
 					.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 //					.requestMatchers("/","/login")
-					.requestMatchers(new AntPathRequestMatcher("/api/login")
+					.requestMatchers(new AntPathRequestMatcher("/api/loginMember")
 							, new AntPathRequestMatcher("/")
 							, new AntPathRequestMatcher("/**") //<---- 나중에없애야함..
 							)
 					.permitAll()//얘네는 허용
 					.anyRequest().authenticated() //어떠한 요청이라도 인증 필요
+					
 			)
 			
 			
@@ -91,12 +92,12 @@ public class SpringSecurityConfig {
 //					.permitAll() //대시보드 이동이 막히면 안되니까 허용
 //			)
 			.formLogin(login -> login.disable()) //초기로그인화면사라진다
-			.logout(logout -> logout
-					.deleteCookies("remove")
-					.invalidateHttpSession(false)
-					.logoutUrl("/logout")
-					.logoutSuccessUrl("/login")
-					)
+//			.logout(logout -> logout
+//					.deleteCookies("remove")
+//					.invalidateHttpSession(false)
+//					.logoutUrl("/logout")
+//					.logoutSuccessUrl("/login")
+//					)
 			
 			//JwtFilter를 addFilterBefore로 등록했던 jwtSecurityConfig클래스 적용
 			.apply(new JwtSecurityConfig(tokenProvider))
