@@ -23,8 +23,10 @@
 import { defineComponent, ref } from 'vue'
 // import { useRouter } from 'vue-router'
 import joinMemberView from './joinMemberView.vue'
-import request from '@/api/core/api.js'
+// import request from '@/api/core/api.js'
 // import common from '@/common/common.js'
+// import store from '@/store/module.js'
+import { useStore } from 'vuex'
 
 const data = ref({
     user_id: '',
@@ -34,6 +36,8 @@ export default defineComponent({
     name: 'loginView',
     setup() {
         // const router = useRouter();
+        const store = useStore()
+
         const isModalViewed = ref(false)
         const openJoinMember = () => {
             console.log('회원가입누름')
@@ -45,11 +49,17 @@ export default defineComponent({
         const goLogin = () => {
             console.log('로그인누름')
             console.log(data.value)
-            request.post("/api/loginMember", data.value)
-                .then((res) => {
-                    console.log(res)
-                    console.log("로그인갔다옴")
-                })
+            // request.post("/api/loginMember", data.value)
+            //     .then((res) => {
+            //         console.log(res)
+            //         console.log(res.Authorization)
+            //         console.log("로그인갔다옴")
+            //     })
+            // this.$store.dispatch('login')
+            // const data1 = data.value
+            // store.actions.login(1, JSON.stringify(data1))
+            // store.actions.login(data.value)
+            store.dispatch('login', data.value)
         }
 
 

@@ -41,7 +41,10 @@ public class CustomUserDetails implements UserDetails{
 	public String getUsername() {
 		return member.getMemberId();
 	}
-
+	
+	public Member getMember() {
+		return this.member;
+	}
 	
 	//jwt이용할것이므로 true로 변경
 	@Override

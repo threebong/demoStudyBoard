@@ -66,8 +66,11 @@ public class JwtFilter extends GenericFilterBean{
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
 		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-			System.out.println("token :::::      " + bearerToken);
+			System.out.println("꺼내온 token :::::      " + bearerToken);
 			return bearerToken.substring(7);
+		}else {
+			//test
+			System.out.println("꺼내온 TOKEN 없음!!!!!!!!");
 		}
 		return null;
 		
