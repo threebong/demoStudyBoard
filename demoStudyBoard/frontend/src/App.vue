@@ -1,8 +1,12 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">게시판</router-link> | 
+    <router-link to="/about">게시판</router-link> |
     <router-link to="/login">로그인</router-link>
+
+    <div>
+      <p>이름님 환영합니다.</p>
+    </div>
   </nav>
   <router-view/>
 </template>
