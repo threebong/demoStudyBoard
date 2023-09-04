@@ -8,7 +8,7 @@ import Vuex from 'vuex'
 const app = createApp(App)
 
 //전역변수설정
-app.config.globalProperties.$store = store
+// app.config.globalProperties.$store = store
 app.config.globalProperties.$axios = axios
 
 

@@ -2,6 +2,7 @@ package com.example.demo.web.joinMember.controller;
 
 import java.util.HashMap;
 
+//import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -81,6 +82,13 @@ public class JoinMemberController {
 		System.out.println(authenticationToken);
 		
 		//아래의 메소드로 실행시키면 JpaUserDetailService로 이동한다
+		/*
+		 * 1.AuthenticationManger의 구현체인 ProviderManager의 autnentication() 메소드 실행
+		 * 2.해당 메소드에서 AuthenticationProvider인터페이스의 authenticate() 메소드 실행 
+		 * 		해당 인터페이스는 UserDetailService(DB의 이용자 정보를 가져오는) 인터페이스 사용함
+		 * 3. UserDetailService인터페이스의 loadUserByUsername()메소드 호출하게 됨
+		 * 4. JpaUserDetailsService 구현체에 @Override된 loadUserByUsername() 메소드 호출함
+		 * */
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		
 		//유저정보세팅중ing
@@ -90,16 +98,25 @@ public class JoinMemberController {
 		System.out.println(authentication.getName()); 
 		System.out.println(authentication.getPrincipal());
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println(principal);
 		CustomUserDetails userDetails = (CustomUserDetails)principal;
 		System.out.println(userDetails.getPassword());
 		System.out.println(userDetails.getMember().getMemberName());
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
-		//사용자정보
-		System.out.println("-------------사용자 정보-----------------");
+		System.out.println(userDetails.getMember().toString());
+		//Token
+		System.out.println("-------------토큰-----------------");
 		String jwt = tokenProvider.createToken(authentication);
-		System.out.println(authentication);
 		System.out.println(jwt);
+		//user 정보 가져오기?
+		ObjectMapper objectMapper = new ObjectMapper();
+		HashMap<String, String> user = new HashMap<String,String>();
+		user = objectMapper.convertValue(userDetails.getMember(), HashMap.class);
+		user.put("memberPw", "");
+		user.put(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+		System.out.println(user);
+		
+				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
 		
 //		Cookie cookie = new Cookie("accessToken", jwt);
 //		cookie.setMaxAge(60*60*24);
@@ -109,8 +126,7 @@ public class JoinMemberController {
 //		response.addCookie(cookie);
 //		ObjectMapper objectMapper = new ObjectMapper();
 		
-		HashMap<String, String> token = new HashMap<>();
-		token.put(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+//		HashMap<String, String> token = new HashMap<>();
 //		byte[] tokenStr = objectMapper.writeValueAsBytes(token);
 //		response.getOutputStream().write(tokenStr);
 //		response.addHeader(JwtFilter.AUTHORIZATION_HEADER, "Bearer " +jwt );
@@ -121,6 +137,6 @@ public class JoinMemberController {
 		return ResponseEntity.ok()
 //				.headers(httpheaders)
 //				.body(authentication);
-				.body(token);  //TODO 여기서부터
+				.body(user);  //TODO 여기서부터
 	}
 }

@@ -47,6 +47,10 @@ public class JwtFilter extends GenericFilterBean{
 		String jwt = resolveToken(httpServeletRequest);
 		String requestURI = httpServeletRequest.getRequestURI();
 		
+		System.out.println("토큰값이있는가");
+		System.out.println(jwt);
+		System.out.println(httpServeletRequest.getHeader(AUTHORIZATION_HEADER));
+		
 		//유효성 검증후 정상이면 SecurityContext에 저장
 		if(StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
 			Authentication authentication = tokenProvider.getAuthentication(jwt);

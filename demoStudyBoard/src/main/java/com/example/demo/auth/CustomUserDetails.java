@@ -50,25 +50,25 @@ public class CustomUserDetails implements UserDetails{
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
-		return true;
+		return true;//계정 만료 안됨
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return true;
+		return true;//계정 잠기지 않음
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
-		return true;
+		return true;//비밀번호 만료 안됨
 	}
 
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return true;
+		return true;//계정 활성화 됨 
 	}
 
 }
