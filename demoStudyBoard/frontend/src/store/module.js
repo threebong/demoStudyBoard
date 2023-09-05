@@ -35,10 +35,11 @@ const mutations = {
     },
     logout (state) {
         state.token = null
-        state.id = null
-        state.name = null
-        state.email = null
-        state.phone = null
+        state.memberNo = null
+        state.memberId = null
+        state.memberName = null
+        state.memberEmail = null
+        state.memberPhone = null
     }
 }
 
@@ -58,7 +59,7 @@ const actions = {
           commit('login', res)
           console.log(':::::::::::::VUEX 의 로그인:::::::::::: ')
           console.log(this.state.token)
-          router.push("/")
+          router.replace("/")
         }).catch(e => {
           console.log(e)
           console.log(':::::VUEX 로그인실패:::::::::::')
@@ -66,7 +67,9 @@ const actions = {
 
     },
     logout ({commit}) {
+        console.log('모듈의로그아웃')
         commit('logout')
+        alert('로그아웃 되었습니다.' + state.token)
     }
 }
 

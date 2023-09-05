@@ -36,7 +36,7 @@ public class JpaUserDetailsService implements UserDetailsService {
 		
 		Member member =memberRepository.findByMemberId(username);
 		if(member == null) {
-			new UsernameNotFoundException(":::::INVALID Authentication");
+			throw new UsernameNotFoundException(":::::INVALID Authentication");
 		}
 //				.orElseThrow(
 //					() -> new UsernameNotFoundException(":::::::::Invalid authentication::::::::::::")
