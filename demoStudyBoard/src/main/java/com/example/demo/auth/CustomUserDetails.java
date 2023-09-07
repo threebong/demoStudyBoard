@@ -1,5 +1,6 @@
 package com.example.demo.auth;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -25,11 +26,14 @@ public class CustomUserDetails implements UserDetails{
 		this.member = member;
 	}
 	
-
+	
+	//해당 User의 권한 return 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+		Collection<GrantedAuthority> collectors = new ArrayList<>();
+		collectors.add(() -> {return "ROLE_NORMAL";});
+		return collectors;
 	}
 
 	@Override

@@ -119,6 +119,8 @@ public class JwtProvider implements InitializingBean{ //
         //Claim과 authorities 이용하여 User 객체 생성
         User principal = new User(claims.getSubject(), "", authorities);
         
+        System.out.println(principal.toString());
+        
         //Authentication 객체 리턴
         return new UsernamePasswordAuthenticationToken(principal, token, authorities); 
         
