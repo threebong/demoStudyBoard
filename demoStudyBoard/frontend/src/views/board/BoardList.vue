@@ -46,6 +46,7 @@
   import request from '@/api/core/api.js'
   export default {
     data() { //변수생성
+      alert('1');
       return {
         requestBody: {}, //리스트 페이지 데이터전송
         list: {}, //리스트 데이터
@@ -67,6 +68,7 @@
         size: this.$route.query.size ? this.$route.query.size : 10,
         keyword: this.$route.query.keyword,
         paginavigation: function () { //페이징 처리 for문 커스텀
+          alert('2');
           let pageNumber = [] //;
           let start_page = this.paging.start_page;
           let end_page = this.paging.end_page;
@@ -93,7 +95,26 @@
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
           }
         })
+      },
+    fnView(idx) {
+      this.requestBody.idx = idx
+      this.$router.push({
+        path: './detail',
+        query: this.requestBody
+      })
+    },
+    fnWrite() {
+      this.$router.push({
+        path: './write'
+      })
+    },
+    fnPage(n) {
+      if (this.page !== n) {
+        this.page = n
+        this.fnGetList()
       }
     }
   }
+}
+   
   </script>
