@@ -73,7 +73,7 @@ public class SpringSecurityConfig {
 					.requestMatchers(new AntPathRequestMatcher("/api/loginMember")//로그인
 							, new AntPathRequestMatcher("/")
 							, new AntPathRequestMatcher("/api/checkDupId") //중복id체크
-							, new AntPathRequestMatcher("/api//joinMember")//회원가입
+							, new AntPathRequestMatcher("/api/joinMember")//회원가입
 							
 //							, new AntPathRequestMatcher("/**") //<---- 나중에없애야함..
 							)
