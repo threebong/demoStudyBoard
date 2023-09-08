@@ -1,8 +1,8 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/board/list">게시판</router-link> |
-    <router-link to="/login">로그인</router-link>
+    <router-link to="/">Home</router-link>
+    <router-link to="/board/list">| 게시판</router-link>
+    <router-link v-if="!isLogin" to="/login">| 로그인</router-link>
 
     <div v-if="isLogin">
       <p >{{this.$store.state.memberName}} 님 환영합니다.

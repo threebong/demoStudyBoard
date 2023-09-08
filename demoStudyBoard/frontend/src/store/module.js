@@ -69,7 +69,8 @@ const actions = {
     logout ({commit}) {
         console.log('모듈의로그아웃')
         commit('logout')
-        alert('로그아웃 되었습니다.' + state.token)
+        alert('로그아웃 되었습니다.')
+        router.replace('/')
     }
 }
 
