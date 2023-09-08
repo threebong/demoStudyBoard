@@ -75,6 +75,7 @@ export default defineComponent({
                         console.log(res)
                         if(res>0){
                             alert('회원가입 완료되었습니다.')
+                            initForm()
                             emit('close-modal')
                         }else{
                             alert('회원가입이 실패했습니다.\n다시 시도해주세요.')
@@ -130,7 +131,12 @@ export default defineComponent({
         }
         // 폼 초기화
         const initForm = () => {
-
+            data.value.memberId= '',
+            data.value.memberName= '',
+            data.value.memberPw= '',
+            data.value.pwAgain= '',
+            data.value.memberEmail= '',
+            data.value.memberPhone= ''
         }
 
         return{
