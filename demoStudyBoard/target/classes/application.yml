@@ -1,0 +1,41 @@
+server:
+ port: 8083
+
+
+#DB
+spring:
+ datasource:
+  dbcp2.driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/ibms
+  username: root
+  password: ibms1234!@# 
+ 
+ jpa:
+  database: mysql
+  database-platform: org.hibernate.dialect.MySQL8Dialect
+  open-in-view: false
+  show-sql: true
+  hibernate:
+   format_sql: true
+   ddl-auto: update  
+   generate-ddl: true
+  
+#마이바티스 설정
+mybatis:
+  configuration:
+    multiple-result-sets-enabled: false
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true    
+    jdbc-type-for-null: varchar
+    default-fetch-size: 500
+  mapper-locations: classpath:mapper/**/*.xml
+
+
+
+  
+#https://velog.io/@gale4739/Spring-Security-%EC%A0%81%EC%9A%A9
+#jwt (secretKey 길게 적어야함)
+jwt:
+ secret: ThatWhichWePersistInDoingBecomesEasierForUsToDoNotThatTheNatureOfTheThingItselfIsChangedButThatOurPowerToDoIsIncreased
+ header: Authorization
+ token-validity-in-seconds: 86400
