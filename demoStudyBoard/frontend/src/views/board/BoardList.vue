@@ -80,13 +80,11 @@
     },
     methods: {
       fnGetList() {
-        alert("page"+this.page)
         this.requestBody = { // 데이터 전송
           keyword: this.keyword,
           page: this.page,
           size: this.size
         }
-        alert(this.requestBody.this.page)
         request.get('/api/board/list',this.requestBody)
         .then((res) => {     
           if (res.resultCode === "OK") {
