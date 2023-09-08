@@ -3,8 +3,12 @@ package com.example.demo.web.board.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.web.board.Page.Header;
 import com.example.demo.web.board.dto.BoardDto;
 import com.example.demo.web.board.entity.BoardEntity;
 import com.example.demo.web.board.service.BoardService;
@@ -20,10 +24,12 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/api/board/list")    
-    public List<BoardDto> boardList() { 
-    	
-    	return boardService.getBoardList();    	
-    	}
+    public Header<List<BoardDto>> boardList(
+            @PageableDefault(sort = {"idx"}) Pageable pageable
+    ) {
+    	System.out.println("adsdsadasdasdas"+pageable);
+        return boardService.getBoardList(pageable);
+    }
 
     @GetMapping("api/board/{id}")
     public BoardDto getBoard(@PathVariable Long id) {

@@ -3,8 +3,13 @@ package com.example.demo.web.board.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.web.board.Page.Header;
+import com.example.demo.web.board.Page.Pagination;
 import com.example.demo.web.board.dto.BoardDto;
 import com.example.demo.web.board.entity.BoardEntity;
 import com.example.demo.web.board.repository.BoardRepository;
@@ -25,10 +30,10 @@ public class BoardService {
     /**
      * 게시글 목록 가져오기
      */
-    public List<BoardDto> getBoardList() {
-        List<BoardEntity> boardEntities = boardRepository.findAll();
+    public Header<List<BoardDto>> getBoardList(Pageable pageable) {
         List<BoardDto> dtos = new ArrayList<>();
 
+        Page<BoardEntity> boardEntities = boardRepository.findAllByOrderByIdxDesc(pageable);
         for (BoardEntity entity : boardEntities) {
             BoardDto dto = BoardDto.builder()
                     .idx(entity.getIdx())
@@ -40,8 +45,15 @@ public class BoardService {
 
             dtos.add(dto);
         }
-        System.out.println("결과값:"+dtos);
-        return dtos;
+
+        Pagination pagination = new Pagination(
+                (int) boardEntities.getTotalElements()
+                , pageable.getPageNumber() + 1
+                , pageable.getPageSize()
+                , 10
+        );
+
+        return Header.OK(dtos, pagination);
     }
 
     /**

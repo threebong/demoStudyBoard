@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 
+
 const routes = [
   {
     path: '/',
@@ -31,7 +32,17 @@ const routes = [
     path: '/board/list',
     name: 'BoardList',
     component: () => import('../views/board/BoardList.vue')
-  }
+  },
+  {
+    path: '/board/detail',
+    name: 'BoardDetail',
+    component: () => import('../views/board/BoardDetail.vue')
+  },
+  {
+    path: '/board/write',
+    name: 'BoardWrite',
+    component: () => import('../views/board/BoardWrite.vue')
+  },
 
 ]
 
