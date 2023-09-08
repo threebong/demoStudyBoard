@@ -2,6 +2,7 @@
   <nav>
     <router-link to="/">Home</router-link>
     <router-link to="/board/list">| 게시판</router-link>
+    <router-link to="/about">| 공개 페이지</router-link>
     <router-link v-if="!isLogin" to="/login">| 로그인</router-link>
 
     <div v-if="isLogin">
