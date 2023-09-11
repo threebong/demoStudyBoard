@@ -65,14 +65,10 @@ export default defineComponent({
     setup(props, { emit }) {// <---이렇게 해야 emit 먹힘..왜지?몰라..
         // const emit = defineEmits(['close-modal'])
         const submitForm = () => {
-            // console.log(data.value)
-            console.log('회원가입하기누름')
             //회원정보 vali check
             if(checkForm(data.value)){
                 request.post('/api/joinMember', data.value)
                     .then((res) => {
-                        console.log('갔다왔다')
-                        console.log(res)
                         if(res>0){
                             alert('회원가입 완료되었습니다.')
                             initForm()
@@ -110,8 +106,6 @@ export default defineComponent({
         }
         // 중복 Id확인
         const checkDupId = () => {
-            console.log('아이디비었나?')
-            console.log(common.isEmpty(data.value.memberId).length)
             if(common.isEmpty(data.value.memberId).length === 0){
                 alert('공백을 아이디로 사용할 수 없습니다.')
             }else{

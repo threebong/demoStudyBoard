@@ -3,7 +3,7 @@ import createPersistedState from "vuex-persistedstate"
 import modules from './module.js'
 
 const persistedState = createPersistedState({
-    paths: ['token', 'id', 'name', 'email', 'phone']
+    paths: ['token', 'memberName']
 })
 
 // export const store = createStore({

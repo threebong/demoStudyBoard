@@ -60,12 +60,18 @@ export default defineComponent({
             // store.actions.login(1, JSON.stringify(data1))
             // store.actions.login(data.value)
             store.dispatch('login', data.value)
+            initForm()
         }
 
+        const initForm = () => {
+            data.value.user_id = ''
+            data.value.user_pw = ''
+        }
 
         return {
             goLogin,
             openJoinMember,
+            initForm,
             isModalViewed,
             data
         }

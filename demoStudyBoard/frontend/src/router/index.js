@@ -29,6 +29,19 @@ const routes = [
     ]
   },
   {
+    path: '/mypage',
+    name: 'mypage',
+    component: () => import('../views/mypage/MyPageView.vue'),
+    beforeEnter(from, to, next){
+      if(store.state.token===null){
+        alert('잘못된 접근입니다.')
+        next('/')
+      }else{
+        next()
+      }
+    }
+  },
+  {
     path: '/board',
     name: 'board',
     beforeEnter(from, to, next){
@@ -59,23 +72,6 @@ const routes = [
       }
     ]
   }
-
-  // {
-  //   path: '/board/list',
-  //   name: 'BoardList',
-  //   component: () => import('../views/board/BoardList.vue')
-  // },
-  // {
-  //   path: '/board/detail',
-  //   name: 'BoardDetail',
-  //   component: () => import('../views/board/BoardDetail.vue')
-  // },
-  // {
-  //   path: '/board/write',
-  //   name: 'BoardWrite',
-  //   component: () => import('../views/board/BoardWrite.vue')
-  // },
-
 ]
 
 const router = createRouter({

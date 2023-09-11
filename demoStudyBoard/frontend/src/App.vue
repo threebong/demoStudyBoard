@@ -4,6 +4,7 @@
     <router-link to="/board/list">| 게시판</router-link>
     <router-link to="/about">| 공개 페이지</router-link>
     <router-link v-if="!isLogin" to="/login">| 로그인</router-link>
+    <router-link v-if="isLogin" to = '/mypage'>|  마이 페이지</router-link>
 
     <div v-if="isLogin">
       <p >{{this.$store.state.memberName}} 님 환영합니다.
@@ -44,6 +45,12 @@ export default defineComponent({
     const store = useStore()
 
     const isLogin = computed(() => {
+      console.log('computed')
+      console.log(store.state.token)
+      console.log(store.state)
+
+
+
       return store.state.token === null ? false : true
     })
 
