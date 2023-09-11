@@ -38,4 +38,4 @@ mybatis:
 jwt:
  secret: ThatWhichWePersistInDoingBecomesEasierForUsToDoNotThatTheNatureOfTheThingItselfIsChangedButThatOurPowerToDoIsIncreased
  header: Authorization
- token-validity-in-seconds: 86400
+ token-validity-in-seconds: 10800000

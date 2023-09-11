@@ -9,6 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.web.board.Page.Header;
+import com.example.demo.web.board.Page.Pagination;
 import com.example.demo.web.board.dto.BoardDto;
 import com.example.demo.web.board.entity.BoardEntity;
 import com.example.demo.web.board.service.BoardService;
@@ -25,9 +26,9 @@ public class BoardController {
 
     @GetMapping("/api/board/list")    
     public Header<List<BoardDto>> boardList(
-            @PageableDefault(sort = {"idx"}) Pageable pageable
-    ) {
-    	System.out.println("adsdsadasdasdas"+pageable);
+            @PageableDefault(sort = {"idx"} ) Pageable pageable
+    ) { 
+    	System.out.println("pageablepageablepageablepageable"+pageable);
         return boardService.getBoardList(pageable);
     }
 

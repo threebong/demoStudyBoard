@@ -52,7 +52,7 @@ public class BoardService {
                 , pageable.getPageSize()
                 , 10
         );
-
+        System.out.println("paginationpaginationpaginationpaginationpagination"+pagination);
         return Header.OK(dtos, pagination);
     }
 

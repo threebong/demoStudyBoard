@@ -85,8 +85,12 @@
           page: this.page,
           size: this.size
         }
-        request.get('/api/board/list',this.requestBody)
-        .then((res) => {     
+        request.get('/api/board/list',
+        {
+          params: this.requestBody,
+          headers: {}
+        }
+        ).then((res) => {     
           if (res.resultCode === "OK") {
           this.list = res.data  //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
           this.paging = res.pagination
@@ -113,7 +117,6 @@
     fnPage(n) {
       if (this.page !== n) {
         this.page = n
-        alert(n)
         this.fnGetList()
       }
     }
